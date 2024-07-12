@@ -10,17 +10,19 @@ class ConnectPage extends StatefulWidget {
 }
 
 class _ConnectPageState extends State<ConnectPage> {
-  String selectedFilter = 'All';
+  String selectedFilter = 'all';
   List<Comment> comments = [
     Comment(
       name: 'Akuleep J',
       course: 'CSE, 2022 - 2026',
       content: 'Another nice post from Akul',
+      profilepic : 'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg',
     ),
     Comment(
       name: 'Rohan J',
       course: 'IT, 2019 - 2023',
       content: 'Cool comment from Rohan.',
+      profilepic : 'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg',
     ),
   ];
 
@@ -44,23 +46,23 @@ class _ConnectPageState extends State<ConnectPage> {
                 children: [
                   FilterChipWidget(
                     label: 'All',
-                    isSelected: selectedFilter == 'All',
-                    onSelected: () => handleFilterSelection('All'),
+                    isSelected: selectedFilter == 'all',
+                    onSelected: () => handleFilterSelection('all'),
                   ),
                   FilterChipWidget(
                     label: 'College',
-                    isSelected: selectedFilter == 'College',
-                    onSelected: () => handleFilterSelection('College'),
+                    isSelected: selectedFilter == 'college',
+                    onSelected: () => handleFilterSelection('college'),
                   ),
                   FilterChipWidget(
                     label: 'Batch',
-                    isSelected: selectedFilter == 'Batch',
-                    onSelected: () => handleFilterSelection('Batch'),
+                    isSelected: selectedFilter == 'batch',
+                    onSelected: () => handleFilterSelection('batch'),
                   ),
                   FilterChipWidget(
                     label: 'Branch',
-                    isSelected: selectedFilter == 'Branch',
-                    onSelected: () => handleFilterSelection('Branch'),
+                    isSelected: selectedFilter == 'branch',
+                    onSelected: () => handleFilterSelection('branch'),
                   ),
                 ],
               ),

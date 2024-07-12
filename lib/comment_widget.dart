@@ -6,13 +6,13 @@ class CommentWidget extends StatelessWidget {
   final String name;
   final String course;
   final String content;
-  final int likes;
+  final String profilepic;
 
   CommentWidget({
     required this.name,
     required this.course,
     required this.content,
-    required this.likes,
+    required this.profilepic,
   });
 
   @override
@@ -27,8 +27,7 @@ class CommentWidget extends StatelessWidget {
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'),
+                backgroundImage: NetworkImage(profilepic),
               ),
               title: Text(name, style: TextStyle(fontSize: 14)),
               subtitle: Text(course, style: TextStyle(fontSize: 12)),
@@ -36,15 +35,15 @@ class CommentWidget extends StatelessWidget {
             SizedBox(height: 8),
             Text(content, style: TextStyle(fontSize: 14)),
             SizedBox(height: 8),
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.thumb_up_alt_outlined),
-                  onPressed: () {},
-                ),
-                Text('$likes'),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     IconButton(
+            //       icon: Icon(Icons.thumb_up_alt_outlined),
+            //       onPressed: () {},
+            //     ),
+            //     // Text('$likes'),
+            //   ],
+            // ),
           ],
         ),
       ),

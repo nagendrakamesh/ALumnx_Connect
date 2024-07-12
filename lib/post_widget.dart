@@ -1,7 +1,7 @@
 // post_widget.dart
 import 'package:flutter/material.dart';
-import 'comment_widget.dart';
 import 'comment.dart';
+import 'comment_widget.dart';
 
 class PostWidget extends StatefulWidget {
   final String name;
@@ -23,13 +23,25 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  int commentCount = 0;
-  bool isLiked = false;
+  TextEditingController _commentController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    commentCount = widget.commentsData.length;
+  void _postComment() {
+    String commentText = _commentController.text.trim();
+    if (commentText.isNotEmpty) {
+      // Create a new comment object
+      Comment newComment = Comment(
+        name: 'User', // Replace with actual user's name or identifier
+        course: 'Course', // Replace with actual course info if needed
+        content: commentText,
+        profilepic: 'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg', // Replace with actual profile pic URL
+      );
+
+      // Add the new comment to the list
+      setState(() {
+        widget.commentsData.add(newComment);
+        _commentController.clear(); // Clear the comment text field
+      });
+    }
   }
 
   @override
@@ -45,41 +57,29 @@ class _PostWidgetState extends State<PostWidget> {
               contentPadding: EdgeInsets.zero,
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(
-                    'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'),
+                    'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'), // Replace with actual image URL
               ),
-              title: Text(
-                widget.name,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                widget.course,
-                style: TextStyle(fontSize: 12),
-              ),
+              title: Text(widget.name),
+              subtitle: Text(widget.course),
             ),
             SizedBox(height: 8),
-            Text(
-              widget.content,
-              style: TextStyle(fontSize: 14),
-            ),
+            Text(widget.content),
             SizedBox(height: 8),
             Row(
               children: [
                 IconButton(
-                  icon: Icon(
-                    Icons.thumb_up_alt_outlined,
-                    color: isLiked ? Colors.blue : null,
-                  ),
+                  icon: Icon(Icons.thumb_up_alt_outlined),
                   onPressed: () {
-                    setState(() {
-                      isLiked = !isLiked;
-                    });
+                    // Handle like functionality
                   },
                 ),
-                Text('${widget.likes}'),
+                SizedBox(width: 4),
+                Text('${widget.likes} Likes'),
                 Spacer(),
                 IconButton(
                   icon: Icon(Icons.comment_outlined),
                   onPressed: () {
+                    // Show comments in modal bottom sheet
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -103,23 +103,39 @@ class _PostWidgetState extends State<PostWidget> {
                                   child: ListView.builder(
                                     itemCount: widget.commentsData.length,
                                     itemBuilder: (context, index) {
-                                      return ListTile(
-                                        contentPadding: EdgeInsets.all(0),
-                                        leading: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'),
-                                        ),
-                                        title: Text(
-                                          widget.commentsData[index].name,
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                        subtitle: Text(
-                                          widget.commentsData[index].content,
-                                          style: TextStyle(fontSize: 14),
-                                        ),
+                                      return CommentWidget(
+                                        name: widget.commentsData[index].name,
+                                        course: widget.commentsData[index].course,
+                                        content: widget.commentsData[index].content,
+                                        profilepic: widget.commentsData[index].profilepic,
                                       );
                                     },
                                   ),
+                                ),
+                                SizedBox(height: 16),
+                                Divider(),
+                                SizedBox(height: 8),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        controller: _commentController,
+                                        decoration: InputDecoration(
+                                          hintText: 'Add a comment...',
+                                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(20.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    IconButton(
+                                      icon: Icon(Icons.send),
+                                      onPressed: _postComment,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -129,7 +145,8 @@ class _PostWidgetState extends State<PostWidget> {
                     );
                   },
                 ),
-                Text('$commentCount'),
+                SizedBox(width: 4),
+                Text('${widget.commentsData.length}  '),
               ],
             ),
           ],
