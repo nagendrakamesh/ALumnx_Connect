@@ -1,4 +1,3 @@
-// post_widget.dart
 import 'package:flutter/material.dart';
 import 'comment.dart';
 import 'comment_widget.dart';
@@ -85,7 +84,7 @@ class _PostWidgetState extends State<PostWidget> {
                       isScrollControlled: true,
                       builder: (BuildContext context) {
                         return FractionallySizedBox(
-                          heightFactor: 0.8,
+                          heightFactor: 0.9,
                           child: Container(
                             padding: EdgeInsets.all(16.0),
                             child: Column(
@@ -100,42 +99,49 @@ class _PostWidgetState extends State<PostWidget> {
                                 ),
                                 SizedBox(height: 16),
                                 Expanded(
-                                  child: ListView.builder(
-                                    itemCount: widget.commentsData.length,
-                                    itemBuilder: (context, index) {
-                                      return CommentWidget(
-                                        name: widget.commentsData[index].name,
-                                        course: widget.commentsData[index].course,
-                                        content: widget.commentsData[index].content,
-                                        profilepic: widget.commentsData[index].profilepic,
-                                      );
-                                    },
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: widget.commentsData.map((comment) {
+                                        return CommentWidget(
+                                          name: comment.name,
+                                          course: comment.course,
+                                          content: comment.content,
+                                          profilepic: comment.profilepic,
+                                        );
+                                      }).toList(),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 16),
                                 Divider(),
                                 SizedBox(height: 8),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        controller: _commentController,
-                                        decoration: InputDecoration(
-                                          hintText: 'Add a comment...',
-                                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(20.0),
+                                AnimatedPadding(
+                                  duration: const Duration(milliseconds: 300),
+                                  padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Expanded(
+                                        child: TextField(
+                                          controller: _commentController,
+                                          decoration: InputDecoration(
+                                            hintText: 'Add a comment...',
+                                            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 8),
-                                    IconButton(
-                                      icon: Icon(Icons.send),
-                                      onPressed: _postComment,
-                                    ),
-                                  ],
+                                      SizedBox(width: 8),
+                                      IconButton(
+                                        icon: Icon(Icons.send),
+                                        onPressed: _postComment,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
