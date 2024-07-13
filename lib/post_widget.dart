@@ -23,6 +23,7 @@ class PostWidget extends StatefulWidget {
 
 class _PostWidgetState extends State<PostWidget> {
   TextEditingController _commentController = TextEditingController();
+  bool isLiked = false; // Add this boolean variable to track the like status
 
   void _postComment() {
     String commentText = _commentController.text.trim();
@@ -41,6 +42,12 @@ class _PostWidgetState extends State<PostWidget> {
         _commentController.clear(); // Clear the comment text field
       });
     }
+  }
+
+  void _toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+    });
   }
 
   @override
@@ -67,13 +74,14 @@ class _PostWidgetState extends State<PostWidget> {
             Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.thumb_up_alt_outlined),
-                  onPressed: () {
-                    // Handle like functionality
-                  },
+                  icon: Icon(
+                    isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+                    color: isLiked ? Colors.blue : null,
+                  ),
+                  onPressed: _toggleLike,
                 ),
                 SizedBox(width: 4),
-                Text('${widget.likes} Likes'),
+                Text('${widget.likes + (isLiked ? 1 : 0)}'), // Update like count dynamically
                 Spacer(),
                 IconButton(
                   icon: Icon(Icons.comment_outlined),
