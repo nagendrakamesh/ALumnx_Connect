@@ -1,8 +1,8 @@
 // connect_page.dart
 import 'package:flutter/material.dart';
-import 'post_widget.dart';
-import 'filter_chip_widget.dart';
-import 'comment.dart';
+import 'package:alumnx_connect/post_widget.dart';
+import 'package:alumnx_connect/filter_chip_widget.dart';
+import 'package:alumnx_connect/comment.dart';
 
 class ConnectPage extends StatefulWidget {
   @override
@@ -34,13 +34,14 @@ class _ConnectPageState extends State<ConnectPage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+              padding: EdgeInsets.only(left: width * 0.05, right: width * 0.05),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -79,6 +80,7 @@ class _ConnectPageState extends State<ConnectPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         onPressed: () {
           Navigator.pushNamed(context, 'post');
         },

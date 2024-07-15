@@ -1,4 +1,3 @@
-// filter_chip_widget.dart
 import 'package:flutter/material.dart';
 
 class FilterChipWidget extends StatelessWidget {
@@ -14,12 +13,16 @@ class FilterChipWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilterChip(
+    return ActionChip(
       label: Text(label),
-      selected: isSelected,
-      onSelected: (bool value) {
-        onSelected();
-      },
+      backgroundColor: isSelected ? Colors.blue : Colors.grey.shade200,
+      labelStyle: TextStyle(
+        color: isSelected ? Colors.white : Colors.black,
+      ),
+      shape: StadiumBorder(
+          side: BorderSide(color : Color(0xFFFFFFFF)),
+      ),
+      onPressed: onSelected,
     );
   }
 }

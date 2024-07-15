@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'comment.dart';
-import 'comment_widget.dart';
+import 'package:alumnx_connect/comment.dart';
+import 'package:alumnx_connect/comment_widget.dart';
 
 class PostWidget extends StatefulWidget {
   final String name;
@@ -50,6 +50,39 @@ class _PostWidgetState extends State<PostWidget> {
     });
   }
 
+  void _showOptionsModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.delete),
+                title: Text('Delete'),
+                onTap: () {
+                  // Implement delete action
+                  Navigator.pop(context); // Close the modal after action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.report),
+                title: Text('Report'),
+                onTap: () {
+                  // Implement report action
+                  Navigator.pop(context); // Close the modal after action
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -67,6 +100,12 @@ class _PostWidgetState extends State<PostWidget> {
               ),
               title: Text(widget.name),
               subtitle: Text(widget.course),
+              trailing: IconButton(
+                icon: Icon(Icons.more_vert),
+                onPressed: () {
+                  _showOptionsModal(context); // Show options modal on button press
+                },
+              ),
             ),
             SizedBox(height: 8),
             Text(widget.content),
