@@ -80,7 +80,7 @@ class _ConnectPageState extends State<ConnectPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF45839E),
         onPressed: () {
           Navigator.pushNamed(context, 'post');
         },

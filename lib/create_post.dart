@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 
 class CreatePostPage extends StatefulWidget {
@@ -119,6 +120,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Post'),
@@ -127,45 +129,67 @@ class _CreatePostPageState extends State<CreatePostPage> {
             onPressed: () {
               if (_controller.text.isNotEmpty) {
                 _showPostDialog(context);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Please enter some content')),
+                );
               }
             },
-            child: Text('Post', style: TextStyle(color: Colors.white)),
+            child: Text('Post'),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white, // Change the text color
+              backgroundColor: Color(0xFF45839E),
+            ),
           ),
+          SizedBox(width: 16), // Add space after the Post button
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: _controller,
-              autofocus: true,
-              decoration: InputDecoration(
-                hintText: 'Type here...',
-                border: InputBorder.none,
+      body: Stack( // Use Stack to position elements
+        children: [
+          Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: _controller,
+                        autofocus: true,
+                        decoration: InputDecoration(
+                          hintText: 'Type here...',
+                          border: InputBorder.none,
+                        ),
+                        maxLines: 8,
+                      ),
+                      SizedBox(height: height * 0.25), // Add space before image
+                      if (_selectedImagePath != null) ...[
+                        Container(
+                          width: double.infinity,
+                          constraints: BoxConstraints(
+                            maxHeight: 150, // Set max height to prevent overflow
+                          ),
+                          child: Image.file(
+                            File(_selectedImagePath!),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
               ),
-              maxLines: 8,
+            ],
+          ),
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: IconButton(
+              icon: Icon(Icons.image),
+              onPressed: _pickImage,
             ),
-            Spacer(),
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.image),
-                  onPressed: _pickImage,
-                ),
-                Spacer(),
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: () {
-                    if (_controller.text.isNotEmpty) {
-                      _showPostDialog(context);
-                    }
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

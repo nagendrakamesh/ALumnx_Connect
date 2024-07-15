@@ -15,7 +15,7 @@ class FilterChipWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ActionChip(
       label: Text(label),
-      backgroundColor: isSelected ? Colors.blue : Colors.grey.shade200,
+      backgroundColor: isSelected ? Color(0xFF45839E) : Colors.grey.shade200,
       labelStyle: TextStyle(
         color: isSelected ? Colors.white : Colors.black,
       ),
